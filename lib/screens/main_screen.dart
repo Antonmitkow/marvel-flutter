@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_labs/models/hero.dart';
 import 'package:flutter_labs/utils/assets_constants.dart';
+import 'package:flutter_labs/utils/colors_constants.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -55,63 +56,121 @@ class _WidgetListHero extends StatefulWidget {
 }
 
 class _WidgetListHeroState extends State<_WidgetListHero> {
-  var _currentIndex = 1;
+  var _currentIndex = 0;
+
+  getBackgroundColor(int id) {
+    Color? currentColor;
+    switch (id) {
+      case 2:
+        currentColor = ConstantsColors.ironManColor;
+        break;
+
+      case 3:
+        currentColor = ConstantsColors.captainAmericaColor;
+        break;
+      case 4:
+        currentColor = ConstantsColors.spidermanColor;
+        break;
+
+      case 5:
+        currentColor = ConstantsColors.doctorStrangeColor;
+        break;
+
+      case 6:
+        currentColor = ConstantsColors.thorColor;
+        break;
+      case 7:
+        currentColor = ConstantsColors.thanosColor;
+        break;
+      case 0:
+      default:
+        currentColor = ConstantsColors.deadpoolColor;
+    }
+    return currentColor;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 35),
-      child: PageView.builder(
-        onPageChanged: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        controller: PageController(viewportFraction: 0.77),
-        itemBuilder: (context, index) {
-          return TweenAnimationBuilder(
-            duration: const Duration(milliseconds: 250),
-            tween: Tween(
-              begin: _currentIndex == index ? 1.0 : 0.8,
-              end: _currentIndex == index ? 1.0 : 0.9,
-            ),
-            builder: (BuildContext context, num value, Widget? child) {
-              return Transform.scale(
-                child: child,
-                scale: value.toDouble(),
+    return Stack(
+      children: [
+        ClipPath(
+          clipper: Clipper(),
+          child: Container(
+            color: getBackgroundColor(_currentIndex),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 35),
+          child: PageView.builder(
+            onPageChanged: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            controller: PageController(viewportFraction: 0.77),
+            itemBuilder: (context, index) {
+              return TweenAnimationBuilder(
+                duration: const Duration(milliseconds: 250),
+                tween: Tween(
+                  begin: _currentIndex == index ? 1.0 : 0.8,
+                  end: _currentIndex == index ? 1.0 : 0.9,
+                ),
+                builder: (BuildContext context, num value, Widget? child) {
+                  return Transform.scale(
+                    child: child,
+                    scale: value.toDouble(),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Card(
+                    shape: BeveledRectangleBorder(
+                        borderRadius: BorderRadius.circular(16)),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          image: DecorationImage(
+                              image: AssetImage(heroList[index].image),
+                              fit: BoxFit.cover)),
+                      child: DefaultTextStyle(
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.w700),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                child: Text(heroList[index].name),
+                                left: 30,
+                                bottom: 35,
+                              )
+                            ],
+                          )),
+                    ),
+                  ),
+                ),
               );
             },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Card(
-                shape: BeveledRectangleBorder(
-                    borderRadius: BorderRadius.circular(16)),
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      image: DecorationImage(
-                          image: AssetImage(heroList[index].image),
-                          fit: BoxFit.cover)),
-                  child: DefaultTextStyle(
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.w700),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            child: Text(heroList[index].name),
-                            left: 30,
-                            bottom: 35,
-                          )
-                        ],
-                      )),
-                ),
-              ),
-            ),
-          );
-        },
-        itemCount: heroList.length,
-      ),
+            itemCount: heroList.length,
+          ),
+        ),
+      ],
     );
+  }
+}
+
+class Clipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    return Path()
+      ..moveTo(size.width, 150)
+      ..lineTo(0, size.height)
+      ..lineTo(size.width, size.height)
+      ..close();
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return false;
   }
 }
