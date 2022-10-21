@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_labs/models/hero.dart';
+import 'package:flutter_labs/screens/detailed_hero/detailed_hero_screen.dart';
 import 'package:flutter_labs/utils/assets_constants.dart';
 import 'package:flutter_labs/utils/colors_constants.dart';
 
@@ -129,29 +130,42 @@ class _WidgetListHeroState extends State<_WidgetListHero> {
                   padding: _currentIndex == index
                       ? const EdgeInsets.symmetric(horizontal: 5)
                       : const EdgeInsets.symmetric(horizontal: 20),
-                  child: Card(
-                    shape: BeveledRectangleBorder(
-                        borderRadius: BorderRadius.circular(16)),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          image: DecorationImage(
-                              image: AssetImage(heroList[index].image),
-                              fit: BoxFit.cover)),
-                      child: DefaultTextStyle(
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 30,
-                              fontWeight: FontWeight.w700),
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                child: Text(heroList[index].name),
-                                left: 30,
-                                bottom: 35,
-                              )
-                            ],
-                          )),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (builder) => DetailedHeroScreen(
+                                image: heroList[index].image,
+                                description: heroList[index].description,
+                                name: heroList[index].name,
+                              )));
+                    },
+                    child: Card(
+                      shape: BeveledRectangleBorder(
+                          borderRadius: BorderRadius.circular(16)),
+                      child: Hero(
+                        tag: 'heroMarvel$index',
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              image: DecorationImage(
+                                  image: AssetImage(heroList[index].image),
+                                  fit: BoxFit.cover)),
+                          child: DefaultTextStyle(
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w700),
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    child: Text(heroList[index].name),
+                                    left: 30,
+                                    bottom: 35,
+                                  )
+                                ],
+                              )),
+                        ),
+                      ),
                     ),
                   ),
                 ),
