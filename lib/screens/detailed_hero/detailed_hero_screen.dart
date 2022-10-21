@@ -19,47 +19,52 @@ class DetailedHeroScreen extends StatelessWidget {
         child: Stack(
           children: [
             Center(
-              child: Container(
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(ImagesConstants.deadpool))),
-                child: Stack(
-                  children: [
-                    Hero(
-                        tag: 'heroMarvel',
-                        child: Image.asset(
-                          image,
-                          fit: BoxFit.cover,
-                          height: double.infinity,
-                        )),
-                    Positioned(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            name,
-                            style: const TextStyle(
-                                fontSize: 34,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            description,
-                            style: const TextStyle(
-                                fontSize: 22,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                          ),
-                        ],
+              child: GestureDetector(
+                onTapCancel: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage(ImagesConstants.deadpool))),
+                  child: Stack(
+                    children: [
+                      Hero(
+                          tag: 'heroMarvel',
+                          child: Image.asset(
+                            image,
+                            fit: BoxFit.cover,
+                            height: double.infinity,
+                          )),
+                      Positioned(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              name,
+                              style: const TextStyle(
+                                  fontSize: 34,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              description,
+                              style: const TextStyle(
+                                  fontSize: 22,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+                          ],
+                        ),
+                        left: 20,
+                        bottom: 30,
+                        right: 1,
                       ),
-                      left: 20,
-                      bottom: 30,
-                      right: 1,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
