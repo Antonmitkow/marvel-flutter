@@ -29,8 +29,12 @@ class _WidgetLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 130, vertical: 25),
-      child: Image.asset(ImagesConstants.logo),
+      padding: const EdgeInsets.symmetric(vertical: 25),
+      child: SizedBox(
+          child: Image.asset(
+        ImagesConstants.logo,
+        width: 130,
+      )),
     );
   }
 }
@@ -58,28 +62,28 @@ class _WidgetListHero extends StatefulWidget {
 class _WidgetListHeroState extends State<_WidgetListHero> {
   var _currentIndex = 0;
 
-  getBackgroundColor(int id) {
-    Color? currentColor;
+  Color getBackgroundColor(int id) {
+    Color currentColor;
     switch (id) {
-      case 2:
+      case 1:
         currentColor = ConstantsColors.ironManColor;
         break;
 
-      case 3:
+      case 2:
         currentColor = ConstantsColors.captainAmericaColor;
         break;
-      case 4:
+      case 3:
         currentColor = ConstantsColors.spidermanColor;
         break;
 
-      case 5:
+      case 4:
         currentColor = ConstantsColors.doctorStrangeColor;
         break;
 
-      case 6:
+      case 5:
         currentColor = ConstantsColors.thorColor;
         break;
-      case 7:
+      case 6:
         currentColor = ConstantsColors.thanosColor;
         break;
       case 0:
@@ -122,7 +126,9 @@ class _WidgetListHeroState extends State<_WidgetListHero> {
                   );
                 },
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: _currentIndex == index
+                      ? const EdgeInsets.symmetric(horizontal: 5)
+                      : const EdgeInsets.symmetric(horizontal: 20),
                   child: Card(
                     shape: BeveledRectangleBorder(
                         borderRadius: BorderRadius.circular(16)),
