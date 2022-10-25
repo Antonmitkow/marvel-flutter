@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_labs/models/hero.dart';
 import 'package:flutter_labs/screens/detailed_hero/detailed_hero_screen.dart';
@@ -139,32 +140,46 @@ class _WidgetListHeroState extends State<_WidgetListHero> {
                                 name: heroList[index].name,
                               )));
                     },
-                    child: Card(
-                      shape: BeveledRectangleBorder(
-                          borderRadius: BorderRadius.circular(16)),
-                      child: Hero(
-                        tag: 'heroMarvel$index',
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              image: DecorationImage(
-                                  image: AssetImage(heroList[index].image),
-                                  fit: BoxFit.cover)),
-                          child: DefaultTextStyle(
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.w700),
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    child: Text(heroList[index].name),
-                                    left: 30,
-                                    bottom: 35,
-                                  )
-                                ],
-                              )),
+                    child: CachedNetworkImage(
+                      imageUrl: heroList[index].image,
+                      imageBuilder: (context, imageProvider) {
+                        return Card(
+                          shape: BeveledRectangleBorder(
+                              borderRadius: BorderRadius.circular(16)),
+                          child: Hero(
+                            tag: 'heroMarvel$index',
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  image: DecorationImage(
+                                      image: imageProvider, fit: BoxFit.cover)),
+                              child: DefaultTextStyle(
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.w700),
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        child: Text(heroList[index].name),
+                                        left: 30,
+                                        bottom: 35,
+                                      )
+                                    ],
+                                  )),
+                            ),
+                          ),
+                        );
+                      },
+                      placeholder: (context, url) => Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: Colors.white,
                         ),
+                        child: const Center(child: CircularProgressIndicator()),
+                      ),
+                      errorWidget: (context, url, error) => const Center(
+                        child: Text('Ошибка загрузки'),
                       ),
                     ),
                   ),
