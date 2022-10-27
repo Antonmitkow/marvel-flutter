@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_labs/utils/colors_constants.dart';
 
 class DetailedHeroScreen extends StatelessWidget {
   final String image;
@@ -40,7 +41,7 @@ class DetailedHeroScreen extends StatelessWidget {
                             name,
                             style: const TextStyle(
                                 fontSize: 34,
-                                color: Colors.white,
+                                color: ConstantsColors.defaultTextColor,
                                 fontWeight: FontWeight.w700),
                           ),
                           const SizedBox(height: 10),
@@ -48,7 +49,7 @@ class DetailedHeroScreen extends StatelessWidget {
                             description,
                             style: const TextStyle(
                                 fontSize: 22,
-                                color: Colors.white,
+                                color: ConstantsColors.defaultTextColor,
                                 fontWeight: FontWeight.w700),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
@@ -65,7 +66,7 @@ class DetailedHeroScreen extends StatelessWidget {
             ),
             const Positioned(
               child: BackButton(
-                color: Colors.white,
+                color: ConstantsColors.defaultTextColor,
               ),
               left: 10,
               top: 10,
