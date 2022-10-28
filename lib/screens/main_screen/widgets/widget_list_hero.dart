@@ -90,6 +90,7 @@ class _WidgetListHeroState extends State<WidgetListHero> {
                                 image: heroList[index].image,
                                 description: heroList[index].description,
                                 name: heroList[index].name,
+                                index: index,
                               )));
                     },
                     child: CachedNetworkImage(
