@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_labs/screens/main_screen/widgets/clipper.dart';
 
 import '../../../models/hero.dart';
-import '../../../network/base_url.dart';
-import '../../../network/dio_client.dart';
-import '../../../network/hero_repository.dart';
 import '../../../utils/colors_constants.dart';
 import '../../detailed_hero/detailed_hero_screen.dart';
 
 class WidgetListHero extends StatefulWidget {
-  const WidgetListHero({Key? key}) : super(key: key);
+  final List<HeroMarvel> listHero;
+  const WidgetListHero({Key? key, required this.listHero}) : super(key: key);
 
   @override
   State<WidgetListHero> createState() => _WidgetListHeroState();
@@ -19,15 +17,15 @@ class WidgetListHero extends StatefulWidget {
 class _WidgetListHeroState extends State<WidgetListHero> {
   var _currentIndex = 0;
 
-  HeroRepository heroRepository = HeroRepository(dioClient: DioClient());
+  // HeroRepository heroRepository = HeroRepository(dioClient: DioClient());
 
-  List<HeroMarvel> listHero = [];
+  // List<HeroMarvel> listHero = [];
 
-  Future<List<HeroMarvel>> getInfo() async {
-    listHero = await heroRepository.getHeroList(timeStamp, publicKey, hash);
-    print(listHero);
-    return listHero;
-  }
+  // Future<List<HeroMarvel>> getInfo() async {
+  //   listHero = await heroRepository.getHeroList(timeStamp, publicKey, hash);
+  //   print(listHero);
+  //   return listHero;
+  // }
 
   Color getBackgroundColor(int id) {
     Color currentColor;
@@ -58,12 +56,6 @@ class _WidgetListHeroState extends State<WidgetListHero> {
         currentColor = ConstantsColors.deadpoolColor;
     }
     return currentColor;
-  }
-
-  @override
-  void initState() {
-    getInfo();
-    super.initState();
   }
 
   @override
@@ -106,18 +98,18 @@ class _WidgetListHeroState extends State<WidgetListHero> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (builder) => DetailedHeroScreen(
-                                image: listHero[index].image.path +
+                                image: widget.listHero[index].image.path +
                                     '.' +
-                                    listHero[index].image.extension,
-                                description: listHero[index].description,
-                                name: listHero[index].name,
+                                    widget.listHero[index].image.extension,
+                                description: widget.listHero[index].description,
+                                name: widget.listHero[index].name,
                                 index: index,
                               )));
                     },
                     child: CachedNetworkImage(
-                      imageUrl: listHero[index].image.path +
+                      imageUrl: widget.listHero[index].image.path +
                           '.' +
-                          listHero[index].image.extension,
+                          widget.listHero[index].image.extension,
                       imageBuilder: (context, imageProvider) {
                         return Card(
                           shape: BeveledRectangleBorder(
@@ -137,7 +129,8 @@ class _WidgetListHeroState extends State<WidgetListHero> {
                                   child: Stack(
                                     children: [
                                       Positioned(
-                                        child: Text(listHero[index].name),
+                                        child:
+                                            Text(widget.listHero[index].name),
                                         left: 30,
                                         bottom: 35,
                                       )
@@ -162,7 +155,7 @@ class _WidgetListHeroState extends State<WidgetListHero> {
                 ),
               );
             },
-            itemCount: listHero.length,
+            itemCount: widget.listHero.length,
           ),
         ),
       ],
