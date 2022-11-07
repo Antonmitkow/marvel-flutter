@@ -1,24 +1,46 @@
-import '../utils/assets_constants.dart';
+import 'dart:convert';
+
+import 'package:flutter_labs/models/image.dart';
 
 class HeroMarvel {
   final int id;
   final String name;
-  final String image;
   final String description;
+  final ModelImage image;
+  const HeroMarvel({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.image,
+  });
 
-  const HeroMarvel(this.id, this.name, this.image, this.description);
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+
+    result.addAll({'id': id});
+    result.addAll({'name': name});
+    result.addAll({'description': description});
+    result.addAll({'thumbnail': image.toMap()});
+
+    return result;
+  }
+
+  factory HeroMarvel.fromMap(Map<String, dynamic> map) {
+    return HeroMarvel(
+      id: map['id']?.toInt() ?? 0,
+      name: map['name'] ?? '',
+      description: map['description'] ?? '',
+      image: ModelImage.fromMap(map['thumbnail']),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory HeroMarvel.fromJson(String source) =>
+      HeroMarvel.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'HeroMarvel(id: $id, name: $name, description: $description, thumbnail: $image)';
+  }
 }
-
-List<HeroMarvel> heroList = [
-  const HeroMarvel(1, 'Deadpool', NetworkAssetsImages.deadpool,
-      'Please don`t make the super suit green...or animated'),
-  const HeroMarvel(2, 'Iron Man', NetworkAssetsImages.ironMan, 'I AM IRON MAN'),
-  const HeroMarvel(3, 'Captain America', NetworkAssetsImages.captainAmerica,
-      'I AM CAPTAIN AMERICA'),
-  const HeroMarvel(
-      4, 'Spiderman', NetworkAssetsImages.spiderman, 'I AM SPIDERMAN'),
-  const HeroMarvel(5, 'Doctor Strange', NetworkAssetsImages.doctorStrange,
-      'I AM DOCTOR STRANGE'),
-  const HeroMarvel(6, 'Thor', NetworkAssetsImages.thor, 'I AM THOR'),
-  const HeroMarvel(7, 'Thanos', NetworkAssetsImages.thanos, 'I AM THANOS'),
-];
