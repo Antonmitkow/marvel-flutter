@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_labs/screens/main_screen/widgets/clipper.dart';
 
-import '../../../models/hero.dart';
+import '../../../models/hero_marvel.dart';
 import '../../../utils/colors_constants.dart';
 import '../../detailed_hero/detailed_hero_screen.dart';
 
@@ -16,16 +16,6 @@ class WidgetListHero extends StatefulWidget {
 
 class _WidgetListHeroState extends State<WidgetListHero> {
   var _currentIndex = 0;
-
-  // HeroRepository heroRepository = HeroRepository(dioClient: DioClient());
-
-  // List<HeroMarvel> listHero = [];
-
-  // Future<List<HeroMarvel>> getInfo() async {
-  //   listHero = await heroRepository.getHeroList(timeStamp, publicKey, hash);
-  //   print(listHero);
-  //   return listHero;
-  // }
 
   Color getBackgroundColor(int id) {
     Color currentColor;
@@ -101,7 +91,7 @@ class _WidgetListHeroState extends State<WidgetListHero> {
                                 image: widget.listHero[index].image.path +
                                     '.' +
                                     widget.listHero[index].image.extension,
-                                description: widget.listHero[index].description,
+                                description: '',
                                 name: widget.listHero[index].name,
                                 index: index,
                               )));

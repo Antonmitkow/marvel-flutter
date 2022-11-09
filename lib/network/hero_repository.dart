@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_labs/models/hero.dart';
+import 'package:flutter_labs/models/hero_description.dart';
+import 'package:flutter_labs/models/hero_marvel.dart';
 import 'package:flutter_labs/network/dio_client.dart';
 
 class HeroRepository {
@@ -12,7 +13,7 @@ class HeroRepository {
       String timeStamp, String publicKey, String hash) async {
     try {
       final response = await _dioClient.dio
-          .get('ts=$timeStamp&apikey=$publicKey&hash=$hash');
+          .get('?ts=$timeStamp&apikey=$publicKey&hash=$hash');
 
       for (var item in response.data['data']['results']) {
         heroMarvel.add(HeroMarvel.fromMap(item));
@@ -24,5 +25,22 @@ class HeroRepository {
     }
 
     return heroMarvel;
+  }
+
+  Future<HeroDescription> getHeroById(
+      int idHero, String timeStamp, String publicKey, String hash) async {
+    HeroDescription heroDescription =
+        HeroDescription(id: 0, description: 'asasasdasd');
+    try {
+      final response = await _dioClient.dio
+          .get('/$idHero?ts=$timeStamp&apikey=$publicKey&hash=$hash');
+
+      heroDescription = HeroDescription.fromMap(response.data);
+    } on DioError catch (e) {
+      print('STATUS: ${e.response?.statusCode}');
+      print('DATA: ${e.response?.data}');
+      print('HEADERS: ${e.response?.headers}');
+    }
+    return heroDescription;
   }
 }

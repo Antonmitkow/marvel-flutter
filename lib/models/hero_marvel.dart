@@ -5,12 +5,12 @@ import 'package:flutter_labs/models/image.dart';
 class HeroMarvel {
   final int id;
   final String name;
-  final String description;
+  // final String description;
   final ModelImage image;
   const HeroMarvel({
     required this.id,
     required this.name,
-    required this.description,
+    // required this.description,
     required this.image,
   });
 
@@ -19,7 +19,7 @@ class HeroMarvel {
 
     result.addAll({'id': id});
     result.addAll({'name': name});
-    result.addAll({'description': description});
+    // result.addAll({'description': description});
     result.addAll({'thumbnail': image.toMap()});
 
     return result;
@@ -29,7 +29,7 @@ class HeroMarvel {
     return HeroMarvel(
       id: map['id']?.toInt() ?? 0,
       name: map['name'] ?? '',
-      description: map['description'] ?? '',
+      // description: map['description'] ?? '',
       image: ModelImage.fromMap(map['thumbnail']),
     );
   }
@@ -41,6 +41,7 @@ class HeroMarvel {
 
   @override
   String toString() {
-    return 'HeroMarvel(id: $id, name: $name, description: $description, thumbnail: $image)';
+    return 'HeroMarvel(id: $id, name: $name,  thumbnail: $image)';
+    // description: $description, after name
   }
 }

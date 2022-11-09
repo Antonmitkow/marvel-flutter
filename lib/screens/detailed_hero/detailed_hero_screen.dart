@@ -60,9 +60,9 @@ class DetailedHeroScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Positioned(
+            const Positioned(
               child: BackButton(
-                color: index == 0 || index == 3 ? Colors.black : Colors.white,
+                color: Colors.white,
               ),
               left: 10,
               top: 10,
