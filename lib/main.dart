@@ -3,7 +3,8 @@ import 'package:flutter_labs/screens/main_screen/main_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+      ChangeNotifierProvider(create: (_) => ViewModel(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -12,13 +13,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Marvel',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: ChangeNotifierProvider(
-          create: (_) => ViewModel(),
-          child: const MainScreen(),
-        ));
+      title: 'Marvel',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MainScreen(),
+    );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/colors_constants.dart';
+import '../../../theme/colors_constants.dart';
 
 class WidgetTextMainScreen extends StatelessWidget {
   const WidgetTextMainScreen({Key? key}) : super(key: key);

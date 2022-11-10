@@ -3,7 +3,8 @@ import 'package:flutter_labs/models/hero_description.dart';
 import 'package:flutter_labs/screens/main_screen/widgets/widget_list_hero.dart';
 import 'package:flutter_labs/screens/main_screen/widgets/widget_logo.dart';
 import 'package:flutter_labs/screens/main_screen/widgets/widget_text.dart';
-import 'package:flutter_labs/utils/colors_constants.dart';
+import 'package:flutter_labs/theme/colors_constants.dart';
+import 'package:flutter_labs/theme/ui/error_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/hero_marvel.dart';
@@ -12,15 +13,19 @@ import '../../network/dio_client.dart';
 import '../../network/hero_repository.dart';
 
 class ViewModelState {
-  bool isLoading = false;
+  bool isLoadingHeroList = false;
+  bool isLoadingDescription = false;
+  int statusCode = 0;
 
   ViewModelState();
 }
 
 class ViewModel extends ChangeNotifier {
-  HeroRepository heroRepository = HeroRepository(dioClient: DioClient());
   List<HeroMarvel> listHero = [];
-  HeroDescription heroDescription = HeroDescription(id: 0, description: '');
+  List<HeroDescription> heroDescription = [];
+
+  HeroRepository heroRepository = HeroRepository(dioClient: DioClient());
+
   final _state = ViewModelState();
 
   ViewModelState get state => _state;
@@ -31,16 +36,24 @@ class ViewModel extends ChangeNotifier {
 
   Future<List<HeroMarvel>> getHeroList() async {
     listHero = await heroRepository.getHeroList(timeStamp, publicKey, hash);
-    _state.isLoading = true;
+    _state.isLoadingHeroList = true;
     notifyListeners();
     return listHero;
   }
 
-  Future<HeroDescription> getDescriptionById(int id) async {
+  Future<List<HeroDescription>> getDescriptionById(int id) async {
     heroDescription =
         await heroRepository.getHeroById(id, timeStamp, publicKey, hash);
+    _state.isLoadingDescription = true;
+
     notifyListeners();
     return heroDescription;
+  }
+
+  deleteDescription() {
+    heroDescription.clear();
+    _state.isLoadingDescription = true;
+    notifyListeners();
   }
 }
 
@@ -54,7 +67,8 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
-    final loading = context.select((ViewModel value) => value._state.isLoading);
+    final loading =
+        context.select((ViewModel value) => value.state.isLoadingHeroList);
     final modelListHero = context.watch<ViewModel>();
     return Scaffold(
       body: SafeArea(
@@ -65,9 +79,12 @@ class _MainScreenState extends State<MainScreen> {
             const WidgetTextMainScreen(),
             loading
                 ? Expanded(
-                    child: WidgetListHero(
-                    listHero: modelListHero.listHero,
-                  ))
+                    child: modelListHero.listHero != []
+                        ? WidgetListHero(
+                            listHero: modelListHero.listHero,
+                          )
+                        : const NetworkErrorWidget(),
+                  )
                 : const Expanded(
                     child: Center(
                       child: CircularProgressIndicator(),

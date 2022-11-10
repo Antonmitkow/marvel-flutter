@@ -27,15 +27,16 @@ class HeroRepository {
     return heroMarvel;
   }
 
-  Future<HeroDescription> getHeroById(
+  Future<List<HeroDescription>> getHeroById(
       int idHero, String timeStamp, String publicKey, String hash) async {
-    HeroDescription heroDescription =
-        HeroDescription(id: 0, description: 'asasasdasd');
+    List<HeroDescription> heroDescription = [];
     try {
       final response = await _dioClient.dio
           .get('/$idHero?ts=$timeStamp&apikey=$publicKey&hash=$hash');
 
-      heroDescription = HeroDescription.fromMap(response.data);
+      for (var item in response.data['data']['results']) {
+        heroDescription.add(HeroDescription.fromMap(item));
+      }
     } on DioError catch (e) {
       print('STATUS: ${e.response?.statusCode}');
       print('DATA: ${e.response?.data}');

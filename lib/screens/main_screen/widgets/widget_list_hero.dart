@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_labs/screens/main_screen/widgets/clipper.dart';
 
 import '../../../models/hero_marvel.dart';
-import '../../../utils/colors_constants.dart';
+import '../../../theme/colors_constants.dart';
 import '../../detailed_hero/detailed_hero_screen.dart';
 
 class WidgetListHero extends StatefulWidget {
@@ -21,27 +21,41 @@ class _WidgetListHeroState extends State<WidgetListHero> {
     Color currentColor;
     switch (id) {
       case 1:
+      case 7:
+      case 14:
         currentColor = ConstantsColors.ironManColor;
         break;
 
       case 2:
+      case 8:
+      case 15:
         currentColor = ConstantsColors.captainAmericaColor;
         break;
       case 3:
+      case 9:
+      case 16:
         currentColor = ConstantsColors.spidermanColor;
         break;
 
       case 4:
+      case 10:
+      case 17:
         currentColor = ConstantsColors.doctorStrangeColor;
         break;
 
       case 5:
+      case 11:
+      case 18:
         currentColor = ConstantsColors.thorColor;
         break;
       case 6:
+      case 12:
+      case 19:
         currentColor = ConstantsColors.thanosColor;
         break;
       case 0:
+      case 13:
+      case 20:
       default:
         currentColor = ConstantsColors.deadpoolColor;
     }
@@ -91,9 +105,9 @@ class _WidgetListHeroState extends State<WidgetListHero> {
                                 image: widget.listHero[index].image.path +
                                     '.' +
                                     widget.listHero[index].image.extension,
-                                description: '',
                                 name: widget.listHero[index].name,
                                 index: index,
+                                id: widget.listHero[index].id,
                               )));
                     },
                     child: CachedNetworkImage(
