@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_labs/screens/main_screen/widgets/clipper.dart';
+import 'package:provider/provider.dart';
 
 import '../../../models/hero_marvel.dart';
 import '../../../theme/colors_constants.dart';
 import '../../detailed_hero/detailed_hero_screen.dart';
+import '../view_model/view_model.dart';
 
 class WidgetListHero extends StatefulWidget {
   final List<HeroMarvel> listHero;
@@ -100,20 +102,16 @@ class _WidgetListHeroState extends State<WidgetListHero> {
                       : const EdgeInsets.symmetric(horizontal: 20),
                   child: GestureDetector(
                     onTap: () {
+                      final model = context.read<ViewModel>();
+                      model.getDescriptionById(widget.listHero[index].id);
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (builder) => DetailedHeroScreen(
-                                image: widget.listHero[index].image.path +
-                                    '.' +
-                                    widget.listHero[index].image.extension,
-                                name: widget.listHero[index].name,
-                                index: index,
-                                id: widget.listHero[index].id,
+                                hero: widget.listHero[index],
                               )));
                     },
                     child: CachedNetworkImage(
-                      imageUrl: widget.listHero[index].image.path +
-                          '.' +
-                          widget.listHero[index].image.extension,
+                      imageUrl:
+                          '${widget.listHero[index].image.path}.${widget.listHero[index].image.extension}',
                       imageBuilder: (context, imageProvider) {
                         return Card(
                           shape: BeveledRectangleBorder(
@@ -133,8 +131,11 @@ class _WidgetListHeroState extends State<WidgetListHero> {
                                   child: Stack(
                                     children: [
                                       Positioned(
-                                        child:
-                                            Text(widget.listHero[index].name),
+                                        child: Text(
+                                          widget.listHero[index].name,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                        ),
                                         left: 30,
                                         bottom: 35,
                                       )

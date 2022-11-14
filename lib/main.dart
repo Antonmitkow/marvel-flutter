@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_labs/screens/main_screen/main_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'screens/main_screen/view_model/view_model.dart';
+
 void main() {
   runApp(
       ChangeNotifierProvider(create: (_) => ViewModel(), child: const MyApp()));

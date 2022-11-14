@@ -1,27 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_labs/screens/main_screen/main_screen.dart';
+import 'package:flutter_labs/models/hero_marvel.dart';
 import 'package:provider/provider.dart';
 
+import '../main_screen/view_model/view_model.dart';
+
 class DetailedHeroScreen extends StatelessWidget {
-  final int id;
-  final String image;
-  final String name;
-  final int index;
-  const DetailedHeroScreen(
-      {Key? key,
-      required this.image,
-      required this.name,
-      required this.index,
-      required this.id})
-      : super(key: key);
+  final HeroMarvel hero;
+  const DetailedHeroScreen({Key? key, required this.hero}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final loading =
         context.select((ViewModel value) => value.state.isLoadingDescription);
     final model = context.watch<ViewModel>();
-    model.getDescriptionById(id);
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -30,9 +22,9 @@ class DetailedHeroScreen extends StatelessWidget {
               child: Stack(
                 children: [
                   Hero(
-                      tag: 'heroMarvel$index',
+                      tag: 'heroMarvel${hero.id}',
                       child: CachedNetworkImage(
-                        imageUrl: image,
+                        imageUrl: '${hero.image.path}.${hero.image.extension}',
                         fit: BoxFit.cover,
                         height: double.infinity,
                       )),
@@ -41,14 +33,16 @@ class DetailedHeroScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          name,
+                          hero.name,
                           style: const TextStyle(
                               fontSize: 34,
                               color: Colors.white,
                               fontWeight: FontWeight.w700),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
                         ),
                         const SizedBox(height: 10),
-                        loading
+                        !loading
                             ? Text(
                                 model.heroDescription.first.description != ''
                                     ? model.heroDescription.first.description
