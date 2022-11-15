@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/assets_constants.dart';
+import '../../../theme/assets_constants.dart';
 
 class WidgetLogo extends StatelessWidget {
   const WidgetLogo({Key? key}) : super(key: key);

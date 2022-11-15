@@ -1,13 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_labs/screens/main_screen/widgets/clipper.dart';
+import 'package:provider/provider.dart';
 
-import '../../../models/hero.dart';
-import '../../../utils/colors_constants.dart';
+import '../../../models/hero_marvel.dart';
+import '../../../theme/colors_constants.dart';
 import '../../detailed_hero/detailed_hero_screen.dart';
+import '../view_model/view_model.dart';
 
 class WidgetListHero extends StatefulWidget {
-  const WidgetListHero({Key? key}) : super(key: key);
+  final List<HeroMarvel> listHero;
+  const WidgetListHero({Key? key, required this.listHero}) : super(key: key);
 
   @override
   State<WidgetListHero> createState() => _WidgetListHeroState();
@@ -20,27 +23,41 @@ class _WidgetListHeroState extends State<WidgetListHero> {
     Color currentColor;
     switch (id) {
       case 1:
+      case 7:
+      case 14:
         currentColor = ConstantsColors.ironManColor;
         break;
 
       case 2:
+      case 8:
+      case 15:
         currentColor = ConstantsColors.captainAmericaColor;
         break;
       case 3:
+      case 9:
+      case 16:
         currentColor = ConstantsColors.spidermanColor;
         break;
 
       case 4:
+      case 10:
+      case 17:
         currentColor = ConstantsColors.doctorStrangeColor;
         break;
 
       case 5:
+      case 11:
+      case 18:
         currentColor = ConstantsColors.thorColor;
         break;
       case 6:
+      case 12:
+      case 19:
         currentColor = ConstantsColors.thanosColor;
         break;
       case 0:
+      case 13:
+      case 20:
       default:
         currentColor = ConstantsColors.deadpoolColor;
     }
@@ -85,16 +102,16 @@ class _WidgetListHeroState extends State<WidgetListHero> {
                       : const EdgeInsets.symmetric(horizontal: 20),
                   child: GestureDetector(
                     onTap: () {
+                      final model = context.read<ViewModel>();
+                      model.getDescriptionById(widget.listHero[index].id);
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (builder) => DetailedHeroScreen(
-                                image: heroList[index].image,
-                                description: heroList[index].description,
-                                name: heroList[index].name,
-                                index: index,
+                                hero: widget.listHero[index],
                               )));
                     },
                     child: CachedNetworkImage(
-                      imageUrl: heroList[index].image,
+                      imageUrl:
+                          '${widget.listHero[index].image.path}.${widget.listHero[index].image.extension}',
                       imageBuilder: (context, imageProvider) {
                         return Card(
                           shape: BeveledRectangleBorder(
@@ -114,7 +131,11 @@ class _WidgetListHeroState extends State<WidgetListHero> {
                                   child: Stack(
                                     children: [
                                       Positioned(
-                                        child: Text(heroList[index].name),
+                                        child: Text(
+                                          widget.listHero[index].name,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                        ),
                                         left: 30,
                                         bottom: 35,
                                       )
@@ -139,7 +160,7 @@ class _WidgetListHeroState extends State<WidgetListHero> {
                 ),
               );
             },
-            itemCount: heroList.length,
+            itemCount: widget.listHero.length,
           ),
         ),
       ],
