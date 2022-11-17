@@ -45,6 +45,8 @@ class HeroRepository {
       print('DATA: ${e.response?.data}');
       print('HEADERS: ${e.response?.headers}');
     }
-    return heroDescription;
+    return heroDescription.isEmpty
+        ? [HeroDescription(id: 1, description: 'Ошибка загрузки')]
+        : heroDescription;
   }
 }

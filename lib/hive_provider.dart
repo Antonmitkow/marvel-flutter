@@ -1,8 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_labs/models/image.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'models/hero_marvel.dart';
 
-class HiveProvider {
+class HiveProvider extends ChangeNotifier {
   List<HeroMarvel> listHeroMarvelHive = [];
 
   HiveProvider();
@@ -17,6 +18,7 @@ class HiveProvider {
     listHeroMarvelHive = hiveHeroListBox.get('hero').cast<HeroMarvel>();
 
     hiveHeroListBox.close;
+    notifyListeners();
     return listHeroMarvelHive;
   }
 
@@ -29,6 +31,7 @@ class HiveProvider {
 
     await hiveHeroListBox.put('hero', listHero);
 
+    notifyListeners();
     hiveHeroListBox.close;
   }
 }

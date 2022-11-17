@@ -11,21 +11,22 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => ViewModel()),
-      Provider(
+      ChangeNotifierProvider(
         create: (_) => HiveProvider(),
-      )
+      ),
     ],
-    child: MyApp(),
+    child: const MyApp(),
   ));
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-  final modelHive = HiveProvider();
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final modelListHero = context.watch<ViewModel>();
+    final modelHive = context.watch<HiveProvider>();
+
     modelListHero.listHero.isEmpty
         ? modelHive.getInfo()
         : modelListHero.listHero;

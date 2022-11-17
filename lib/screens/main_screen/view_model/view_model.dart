@@ -28,8 +28,11 @@ class ViewModel extends ChangeNotifier {
   }
 
   Future<List<HeroMarvel>> getHeroList() async {
-    listHero = await heroRepository.getHeroList(timeStamp, publicKey, hash);
     _state.isLoadingHeroList = true;
+    listHero = await heroRepository.getHeroList(timeStamp, publicKey, hash);
+    listHero.isEmpty
+        ? _state.isLoadingHeroList = false
+        : _state.isLoadingHeroList = true;
     notifyListeners();
     return listHero;
   }
