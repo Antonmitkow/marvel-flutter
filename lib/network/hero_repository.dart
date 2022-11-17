@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_labs/hive_provider.dart';
 import 'package:flutter_labs/models/hero_description.dart';
 import 'package:flutter_labs/models/hero_marvel.dart';
 import 'package:flutter_labs/network/dio_client.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_labs/network/dio_client.dart';
 class HeroRepository {
   final DioClient _dioClient;
   List<HeroMarvel> heroMarvel = [];
+  final HiveProvider provider = HiveProvider();
 
   HeroRepository({required DioClient dioClient}) : _dioClient = dioClient;
 
@@ -18,6 +20,7 @@ class HeroRepository {
       for (var item in response.data['data']['results']) {
         heroMarvel.add(HeroMarvel.fromMap(item));
       }
+      response.statusCode == 200 ? provider.saveInfo(heroMarvel) : null;
     } on DioError catch (e) {
       print('STATUS: ${e.response?.statusCode}');
       print('DATA: ${e.response?.data}');

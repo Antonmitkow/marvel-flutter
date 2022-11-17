@@ -1,12 +1,18 @@
 import 'dart:convert';
-
+import 'package:hive/hive.dart';
 import 'package:flutter_labs/models/image.dart';
 
+@HiveType(typeId: 1)
 class HeroMarvel {
+  @HiveField(0)
   final int id;
+
+  @HiveField(1)
   final String name;
 
+  @HiveField(2)
   final ModelImage image;
+
   const HeroMarvel({
     required this.id,
     required this.name,
@@ -40,5 +46,30 @@ class HeroMarvel {
   @override
   String toString() {
     return 'HeroMarvel(id: $id, name: $name,  thumbnail: $image)';
+  }
+}
+
+class HeroMarvelAdapter extends TypeAdapter<HeroMarvel> {
+  @override
+  final typeId = 1;
+
+  @override
+  HeroMarvel read(BinaryReader reader) {
+    final id = reader.readInt();
+    final name = reader.readString();
+    final extension = reader.readString();
+    final path = reader.readString();
+    return HeroMarvel(
+        id: id,
+        name: name,
+        image: ModelImage(path: path, extension: extension));
+  }
+
+  @override
+  void write(BinaryWriter writer, HeroMarvel obj) {
+    writer.writeInt(obj.id);
+    writer.writeString(obj.name);
+    writer.writeString(obj.image.extension);
+    writer.writeString(obj.image.path);
   }
 }
