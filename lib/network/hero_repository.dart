@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_labs/hive_provider.dart';
+import 'package:flutter_labs/database/hive_provider.dart';
 import 'package:flutter_labs/models/hero_description.dart';
 import 'package:flutter_labs/models/hero_marvel.dart';
 import 'package:flutter_labs/network/dio_client.dart';
@@ -45,8 +45,6 @@ class HeroRepository {
       print('DATA: ${e.response?.data}');
       print('HEADERS: ${e.response?.headers}');
     }
-    return heroDescription.isEmpty
-        ? [HeroDescription(id: 1, description: 'Ошибка загрузки')]
-        : heroDescription;
+    return heroDescription;
   }
 }

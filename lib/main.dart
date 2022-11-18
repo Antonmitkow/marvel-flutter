@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_labs/hive_provider.dart';
+import 'package:flutter_labs/database/hive_provider.dart';
 import 'package:flutter_labs/screens/main_screen/main_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
