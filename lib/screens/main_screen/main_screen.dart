@@ -19,8 +19,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
-    final loading =
-        context.select((ViewModel value) => value.state.isLoadingHeroList);
+    final model = context.watch<ViewModel>();
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -28,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
           children: [
             const WidgetLogo(),
             const WidgetTextMainScreen(),
-            loading
+            !model.isLoadingHeroList
                 ? Expanded(
                     child: widget.listHero != []
                         ? WidgetListHero(

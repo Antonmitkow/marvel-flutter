@@ -8,9 +8,8 @@ class WidgetHeroDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      description != '' ? description : 'Нет описания',
-      style: const TextStyle(
-          fontSize: 22, color: Colors.white, fontWeight: FontWeight.w700),
+      description,
+      style: Theme.of(context).textTheme.headline4,
       overflow: TextOverflow.ellipsis,
       maxLines: 2,
     );

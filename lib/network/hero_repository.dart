@@ -20,7 +20,9 @@ class HeroRepository {
       for (var item in response.data['data']['results']) {
         heroMarvel.add(HeroMarvel.fromMap(item));
       }
-      response.statusCode == 200 ? provider.saveInfo(heroMarvel) : null;
+      if (response.statusCode == 200) {
+        provider.saveInfo(heroMarvel);
+      }
     } on DioError catch (e) {
       print('STATUS: ${e.response?.statusCode}');
       print('DATA: ${e.response?.data}');

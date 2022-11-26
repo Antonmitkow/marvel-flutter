@@ -12,7 +12,7 @@ class WidgetHero extends StatelessWidget {
     return Hero(
         tag: 'heroMarvel${hero.id}',
         child: CachedNetworkImage(
-          imageUrl: '${hero.image.path}.${hero.image.extension}',
+          imageUrl: hero.url,
           fit: BoxFit.cover,
           height: double.infinity,
         ));

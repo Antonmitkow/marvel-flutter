@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ConstantsColors {
   ConstantsColors._();
 
-  static const defaultTextColor = Colors.white;
+  static const defaultColor = Colors.white;
   static const backgroundColor = Color.fromARGB(255, 53, 53, 53);
   static const deadpoolColor = Color.fromARGB(255, 129, 8, 8);
   static const ironManColor = Color.fromARGB(255, 250, 75, 75);

@@ -19,6 +19,8 @@ class HeroMarvel {
     required this.image,
   });
 
+  String get url => '${image.path}.${image.extension}';
+
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
 

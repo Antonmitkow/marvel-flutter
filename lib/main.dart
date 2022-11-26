@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_labs/database/hive_provider.dart';
 import 'package:flutter_labs/screens/main_screen/main_screen.dart';
+import 'package:flutter_labs/theme/theme.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -35,9 +36,7 @@ class MyApp extends StatelessWidget {
         : modelListHero.listHero;
     return MaterialApp(
       title: 'Marvel',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: theme,
       home: MainScreen(
         listHero: listHero,
       ),

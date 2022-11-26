@@ -8,8 +8,7 @@ class WidgetHeroName extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       name,
-      style: const TextStyle(
-          fontSize: 34, color: Colors.white, fontWeight: FontWeight.w700),
+      style: Theme.of(context).textTheme.headline1,
       overflow: TextOverflow.ellipsis,
       maxLines: 2,
     );

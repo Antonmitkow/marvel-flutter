@@ -3,6 +3,7 @@ import 'package:flutter_labs/models/hero_marvel.dart';
 import 'package:flutter_labs/screens/detailed_hero/widgets/widget_hero.dart';
 import 'package:flutter_labs/screens/detailed_hero/widgets/widget_hero_description.dart';
 import 'package:flutter_labs/screens/detailed_hero/widgets/widget_hero_name.dart';
+import 'package:flutter_labs/theme/colors_constants.dart';
 import 'package:provider/provider.dart';
 
 import '../main_screen/view_model/view_model.dart';
@@ -13,8 +14,6 @@ class DetailedHeroScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loading =
-        context.select((ViewModel value) => value.state.isLoadingDescription);
     final model = context.watch<ViewModel>();
     return Scaffold(
       body: SafeArea(
@@ -34,10 +33,12 @@ class DetailedHeroScreen extends StatelessWidget {
                           name: hero.name,
                         ),
                         const SizedBox(height: 10),
-                        !loading
+                        !model.isLoadingDescription
                             ? WidgetHeroDescription(
-                                description:
-                                    model.heroDescription.first.description)
+                                description: model.heroDescription.first
+                                        .description.isNotEmpty
+                                    ? model.heroDescription.first.description
+                                    : 'Нет описания')
                             : const CircularProgressIndicator(),
                       ],
                     ),
@@ -50,7 +51,7 @@ class DetailedHeroScreen extends StatelessWidget {
             ),
             Positioned(
               child: BackButton(
-                color: Colors.white,
+                color: ConstantsColors.defaultColor,
                 onPressed: () => {
                   model.deleteDescription,
                   Navigator.pop(context),
