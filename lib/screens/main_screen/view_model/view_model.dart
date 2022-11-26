@@ -7,38 +7,44 @@ import '../../../network/dio_client.dart';
 import '../../../network/hero_repository.dart';
 
 class ViewModelState {
-  bool isLoadingHeroList = false;
-  bool isLoadingDescription = false;
-
   ViewModelState();
 }
 
 class ViewModel extends ChangeNotifier {
+  bool isLoadingHeroList = false;
+  bool isLoadingDescription = false;
   List<HeroMarvel> listHero = [];
   List<HeroDescription> heroDescription = [];
 
   HeroRepository heroRepository = HeroRepository(dioClient: DioClient());
 
-  final _state = ViewModelState();
+  // final _state = ViewModelState();
 
-  ViewModelState get state => _state;
+  // ViewModelState get state => _state;
 
   ViewModel() {
     getHeroList();
   }
 
   Future<List<HeroMarvel>> getHeroList() async {
+    isLoadingHeroList = true;
+    notifyListeners();
     listHero = await heroRepository.getHeroList(timeStamp, publicKey, hash);
-    _state.isLoadingHeroList = true;
+
+    isLoadingHeroList = false;
+
     notifyListeners();
     return listHero;
   }
 
   Future<List<HeroDescription>> getDescriptionById(int id) async {
-    _state.isLoadingDescription = true;
+    isLoadingDescription = true;
+    notifyListeners();
+
     heroDescription =
         await heroRepository.getHeroById(id, timeStamp, publicKey, hash);
-    _state.isLoadingDescription = false;
+
+    isLoadingDescription = false;
 
     notifyListeners();
     return heroDescription;
@@ -46,7 +52,7 @@ class ViewModel extends ChangeNotifier {
 
   deleteDescription() {
     heroDescription.clear();
-    _state.isLoadingDescription = true;
+    isLoadingDescription = true;
     notifyListeners();
   }
 }

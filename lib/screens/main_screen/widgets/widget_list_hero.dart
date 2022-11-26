@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_labs/screens/main_screen/widgets/clipper.dart';
+import 'package:flutter_labs/screens/main_screen/widgets/widget_card.dart';
+import 'package:flutter_labs/screens/main_screen/widgets/widget_clip_path.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/hero_marvel.dart';
@@ -19,61 +20,11 @@ class WidgetListHero extends StatefulWidget {
 class _WidgetListHeroState extends State<WidgetListHero> {
   var _currentIndex = 0;
 
-  Color getBackgroundColor(int id) {
-    Color currentColor;
-    switch (id) {
-      case 1:
-      case 7:
-      case 14:
-        currentColor = ConstantsColors.ironManColor;
-        break;
-
-      case 2:
-      case 8:
-      case 15:
-        currentColor = ConstantsColors.captainAmericaColor;
-        break;
-      case 3:
-      case 9:
-      case 16:
-        currentColor = ConstantsColors.spidermanColor;
-        break;
-
-      case 4:
-      case 10:
-      case 17:
-        currentColor = ConstantsColors.doctorStrangeColor;
-        break;
-
-      case 5:
-      case 11:
-      case 18:
-        currentColor = ConstantsColors.thorColor;
-        break;
-      case 6:
-      case 12:
-      case 19:
-        currentColor = ConstantsColors.thanosColor;
-        break;
-      case 0:
-      case 13:
-      case 20:
-      default:
-        currentColor = ConstantsColors.deadpoolColor;
-    }
-    return currentColor;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        ClipPath(
-          clipper: Clipper(),
-          child: Container(
-            color: getBackgroundColor(_currentIndex),
-          ),
-        ),
+        WidgetClipPath(index: _currentIndex),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 35),
           child: PageView.builder(
@@ -110,45 +61,18 @@ class _WidgetListHeroState extends State<WidgetListHero> {
                               )));
                     },
                     child: CachedNetworkImage(
-                      imageUrl:
-                          '${widget.listHero[index].image.path}.${widget.listHero[index].image.extension}',
+                      imageUrl: widget.listHero[index].url,
                       imageBuilder: (context, imageProvider) {
-                        return Card(
-                          shape: BeveledRectangleBorder(
-                              borderRadius: BorderRadius.circular(16)),
-                          child: Hero(
-                            tag: 'heroMarvel$index',
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16),
-                                  image: DecorationImage(
-                                      image: imageProvider, fit: BoxFit.cover)),
-                              child: DefaultTextStyle(
-                                  style: const TextStyle(
-                                      color: ConstantsColors.defaultTextColor,
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.w700),
-                                  child: Stack(
-                                    children: [
-                                      Positioned(
-                                        child: Text(
-                                          widget.listHero[index].name,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 2,
-                                        ),
-                                        left: 30,
-                                        bottom: 35,
-                                      )
-                                    ],
-                                  )),
-                            ),
-                          ),
+                        return WidgetHeroCard(
+                          index: index,
+                          name: widget.listHero[index].name,
+                          imageProvider: imageProvider,
                         );
                       },
                       placeholder: (context, url) => Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
-                          color: ConstantsColors.defaultTextColor,
+                          color: ConstantsColors.defaultColor,
                         ),
                         child: const Center(child: CircularProgressIndicator()),
                       ),

@@ -1,7 +1,12 @@
 import 'dart:convert';
+import 'package:hive/hive.dart';
 
+@HiveType(typeId: 2)
 class ModelImage {
+  @HiveField(0)
   final String path;
+
+  @HiveField(1)
   final String extension;
   const ModelImage({
     required this.path,
@@ -31,4 +36,22 @@ class ModelImage {
 
   @override
   String toString() => 'ModelImage(path: $path, extension: $extension)';
+}
+
+class ModelImageAdapter extends TypeAdapter<ModelImage> {
+  @override
+  final typeId = 2;
+
+  @override
+  ModelImage read(BinaryReader reader) {
+    final path = reader.readString();
+    final extension = reader.readString();
+    return ModelImage(path: path, extension: extension);
+  }
+
+  @override
+  void write(BinaryWriter writer, ModelImage obj) {
+    writer.writeString(obj.path);
+    writer.writeString(obj.extension);
+  }
 }
